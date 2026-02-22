@@ -4,6 +4,8 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Brewraga — Rooftop Café, Vadodara</title>
+  <meta name="description" content="Vadodara's premier rooftop cafe serving artisanal coffee, gourmet food, and vibes. Open 6 AM to 1 AM daily.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&family=Sacramento&display=swap" rel="stylesheet">
   <style>
@@ -66,6 +68,8 @@
     .nav-links a { font-size: 0.78rem; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-mid); text-decoration: none; transition: color 0.2s; position: relative; }
     .nav-links a::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 0; height: 1px; background: var(--brown); transition: width 0.3s; }
     .nav-links a:hover { color: var(--brown); }
+    .nav-links a.active { color: var(--brown); }
+    .nav-links a.active::after { width: 100%; }
     .nav-links a:hover::after { width: 100%; }
     .nav-reserve {
       background: var(--brown); color: var(--cream);
@@ -684,23 +688,23 @@
     </div>
     <div class="gallery-mosaic reveal">
       <div class="gal gal1" style="grid-row:span 2">
-        <div class="gal-inner"><img src="coffee.jpg" style="width:100%;height:100%;object-fit:cover;display:block" alt="Gallery 1" onerror="this.style.display='none';this.parentElement.innerHTML='☕'"></div>
+        <div class="gal-inner"><img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=600&q=80" style="width:100%;height:100%;object-fit:cover;display:block" alt="Perfect Pour" onerror="this.style.display='none';this.parentElement.innerHTML='☕'"></div>
         <div class="gal-overlay"><span class="gal-cap">Perfect Pour</span></div>
       </div>
       <div class="gal gal2" style="grid-column:span 2">
-        <div class="gal-inner"><img src="coffee counter.jpg" style="width:100%;height:100%;object-fit:cover;display:block" alt="Gallery 2" onerror="this.style.display='none';this.parentElement.innerHTML='🌆'"></div>
+        <div class="gal-inner"><img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80" style="width:100%;height:100%;object-fit:cover;display:block" alt="Rooftop Ambiance" onerror="this.style.display='none';this.parentElement.innerHTML='🌆'"></div>
         <div class="gal-overlay"><span class="gal-cap">Rooftop Ambiance</span></div>
       </div>
       <div class="gal gal3">
-        <div class="gal-inner"><img src="cake.jpg" style="width:100%;height:100%;object-fit:cover;display:block" alt="Gallery 3" onerror="this.style.display='none';this.parentElement.innerHTML='🥐'"></div>
+        <div class="gal-inner"><img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=80" style="width:100%;height:100%;object-fit:cover;display:block" alt="Fresh Bakery" onerror="this.style.display='none';this.parentElement.innerHTML='🥐'"></div>
         <div class="gal-overlay"><span class="gal-cap">Fresh Bakery</span></div>
       </div>
       <div class="gal gal4">
-        <div class="gal-inner"><img src="cup.jpg" style="width:100%;height:100%;object-fit:cover;display:block" alt="Gallery 4" onerror="this.style.display='none';this.parentElement.innerHTML='🪴'"></div>
+        <div class="gal-inner"><img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=600&q=80" style="width:100%;height:100%;object-fit:cover;display:block" alt="Green Corners" onerror="this.style.display='none';this.parentElement.innerHTML='🪴'"></div>
         <div class="gal-overlay"><span class="gal-cap">Green Corners</span></div>
       </div>
       <div class="gal gal5">
-        <div class="gal-inner"><img src="outside desk.jpg" style="width:100%;height:100%;object-fit:cover;display:block" alt="Gallery 5" onerror="this.style.display='none';this.parentElement.innerHTML='🍮'"></div>
+        <div class="gal-inner"><img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=600&q=80" style="width:100%;height:100%;object-fit:cover;display:block" alt="Sweet Treats" onerror="this.style.display='none';this.parentElement.innerHTML='🍮'"></div>
         <div class="gal-overlay"><span class="gal-cap">Sweet Treats</span></div>
       </div>
     </div>
@@ -821,9 +825,28 @@
 </footer>
 
 <script>
-  // ——— NAV SCROLL ———
+  // ——— NAV SCROLL & SPY ———
+  const sections = document.querySelectorAll('section');
+  const navLi = document.querySelectorAll('.nav-links a');
+
   window.addEventListener('scroll', () => {
+    // Navbar Background
     document.getElementById('navbar').classList.toggle('scrolled', scrollY > 30);
+
+    // Scroll Spy (Highlight Active Link)
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop;
+      if (scrollY >= (sectionTop - 150)) {
+        current = section.getAttribute('id');
+      }
+    });
+    navLi.forEach(a => {
+      a.classList.remove('active');
+      if (a.getAttribute('href').includes(current)) {
+        a.classList.add('active');
+      }
+    });
   });
 
   // ——— MOBILE MENU ———
