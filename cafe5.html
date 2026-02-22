@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Brewraga — Rooftop Café, Vadodara</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&family=Sacramento&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #F5EFE0;
+      --beige: #E8D9BF;
+      --beige-dark: #D4C09A;
+      --brown: #6B3F1E;
+      --brown-mid: #8B5A2B;
+      --brown-light: #C4956A;
+      --espresso: #2C1810;
+      --latte: #B8956A;
+      --white: #FDFAF5;
+      --text: #3A2415;
+      --text-mid: #7A5C3E;
+      --text-light: #A88B6E;
+      --shadow: rgba(107,63,30,0.12);
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Jost', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      overflow-x: hidden;
+      cursor: default;
+    }
+
+    /* Grain texture overlay */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 1000; opacity: 0.4;
+    }
+
+    /* ——— SCROLLBAR ——— */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--beige); }
+    ::-webkit-scrollbar-thumb { background: var(--brown-light); border-radius: 3px; }
+
+    /* ——— NAV ——— */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 500;
+      background: rgba(245,239,224,0.88);
+      backdrop-filter: blur(20px) saturate(1.5);
+      border-bottom: 1px solid rgba(180,150,106,0.25);
+      padding: 0 6%;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 70px;
+      transition: all 0.4s;
+    }
+    nav.scrolled { background: rgba(245,239,224,0.97); box-shadow: 0 4px 30px rgba(107,63,30,0.08); }
+    .logo-nav { display: flex; align-items: center; gap: 0.7rem; }
+    .logo-icon { font-size: 1.4rem; }
+    .logo-text { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; color: var(--brown); letter-spacing: 3px; text-transform: uppercase; }
+    .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+    .nav-links a { font-size: 0.78rem; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-mid); text-decoration: none; transition: color 0.2s; position: relative; }
+    .nav-links a::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 0; height: 1px; background: var(--brown); transition: width 0.3s; }
+    .nav-links a:hover { color: var(--brown); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-reserve {
+      background: var(--brown); color: var(--cream);
+      padding: 0.5rem 1.4rem; border-radius: 2px;
+      font-size: 0.75rem; font-weight: 500; letter-spacing: 2px; text-transform: uppercase;
+      text-decoration: none; transition: all 0.25s;
+    }
+    .nav-reserve:hover { background: var(--espresso); transform: translateY(-1px); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
+    .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--brown); transition: all 0.3s; }
+    .mobile-menu {
+      position: fixed; top: 70px; left: 0; right: 0;
+      background: var(--white); border-bottom: 1px solid var(--beige);
+      padding: 1.5rem 6%; display: none; flex-direction: column; gap: 1.2rem; z-index: 499;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { color: var(--text-mid); text-decoration: none; font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; font-weight: 500; padding: 0.3rem 0; border-bottom: 1px solid var(--beige); }
+
+    /* ——— HERO ——— */
+    #hero {
+      min-height: 100vh;
+      background: linear-gradient(160deg, #F5EFE0 0%, #EDE0C4 40%, #E0CCA8 100%);
+      display: flex; align-items: center;
+      padding: 0 6%; padding-top: 70px;
+      position: relative; overflow: hidden;
+    }
+    /* Decorative coffee ring */
+    .coffee-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(107,63,30,0.08);
+    }
+    .r1 { width: 600px; height: 600px; top: -200px; right: -150px; }
+    .r2 { width: 400px; height: 400px; top: -80px; right: -30px; border-color: rgba(107,63,30,0.05); }
+    .r3 { width: 220px; height: 220px; bottom: 100px; left: 5%; border-color: rgba(107,63,30,0.07); }
+    .r4 { width: 100px; height: 100px; bottom: 180px; left: 8%; border-color: rgba(107,63,30,0.1); }
+
+    .hero-inner { max-width: 1200px; margin: 0 auto; width: 100%; display: grid; grid-template-columns: 1.1fr 1fr; gap: 5rem; align-items: center; }
+    .hero-eyebrow { font-family: 'Sacramento', cursive; font-size: 2.2rem; color: var(--brown-light); margin-bottom: 0.5rem; transform: rotate(-1.5deg); display: inline-block; }
+    h1.hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(4rem, 8vw, 7.5rem); font-weight: 300; line-height: 0.9; color: var(--espresso); letter-spacing: -1px; margin-bottom: 1.5rem; }
+    h1.hero-title strong { font-weight: 600; color: var(--brown); display: block; }
+    .hero-sub { font-size: 0.95rem; color: var(--text-mid); line-height: 1.85; max-width: 420px; letter-spacing: 0.3px; margin-bottom: 2.5rem; }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-fill { background: var(--brown); color: var(--white); padding: 0.85rem 2.2rem; border-radius: 2px; font-size: 0.78rem; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; transition: all 0.25s; border: none; cursor: pointer; }
+    .btn-fill:hover { background: var(--espresso); box-shadow: 0 8px 24px rgba(107,63,30,0.25); transform: translateY(-2px); }
+    .btn-ghost { background: transparent; color: var(--brown); padding: 0.85rem 2.2rem; border-radius: 2px; font-size: 0.78rem; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; border: 1px solid var(--brown-light); transition: all 0.25s; cursor: pointer; }
+    .btn-ghost:hover { background: var(--beige); transform: translateY(-2px); }
+
+    .hero-pill { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(107,63,30,0.07); border: 1px solid rgba(107,63,30,0.15); border-radius: 30px; padding: 0.35rem 1rem 0.35rem 0.6rem; font-size: 0.72rem; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: var(--brown); margin-bottom: 1.8rem; }
+    .hero-pill::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #6BC47E; animation: blink 2s ease infinite; }
+    @keyframes blink { 0%,100%{opacity:1}50%{opacity:0.3} }
+
+    /* Hero visual — coffee cup illustration */
+    .hero-visual { display: flex; justify-content: center; align-items: center; }
+    .cup-card {
+      background: var(--white);
+      border-radius: 20px;
+      box-shadow: 0 30px 80px rgba(107,63,30,0.18), 0 8px 20px rgba(107,63,30,0.08);
+      padding: 3rem;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 1rem; position: relative;
+    }
+    .cup-card::after { content: ''; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); width: 80%; height: 20px; background: radial-gradient(ellipse, rgba(107,63,30,0.12) 0%, transparent 70%); border-radius: 50%; }
+    .today-special-tag { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: var(--brown); color: var(--cream); font-size: 0.65rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; padding: 0.3rem 1.2rem; border-radius: 30px; white-space: nowrap; }
+    .cup-visual svg { width: 140px; height: 140px; }
+    .cup-name { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 600; color: var(--espresso); letter-spacing: 1px; }
+    .cup-desc { font-size: 0.8rem; color: var(--text-light); text-align: center; line-height: 1.6; max-width: 200px; }
+    .cup-price { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 600; color: var(--brown); }
+    .cup-badge { background: var(--beige); border-radius: 4px; padding: 0.25rem 0.7rem; font-size: 0.7rem; color: var(--brown-mid); font-weight: 500; letter-spacing: 1px; }
+
+    .hero-stats { display: flex; gap: 2.5rem; margin-top: 2.5rem; }
+    .hstat { text-align: center; }
+    .hstat-n { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 600; color: var(--brown); line-height: 1; }
+    .hstat-l { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-light); margin-top: 0.2rem; }
+
+    /* ——— SECTION CORE ——— */
+    section { padding: 7rem 6%; }
+    .section-in { max-width: 1200px; margin: 0 auto; }
+    .sec-label { font-size: 0.68rem; font-weight: 600; letter-spacing: 3.5px; text-transform: uppercase; color: var(--brown-light); margin-bottom: 0.7rem; display: flex; align-items: center; gap: 0.8rem; }
+    .sec-label::before { content: ''; display: block; width: 24px; height: 1px; background: var(--brown-light); }
+    .sec-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 4vw, 3.5rem); font-weight: 300; color: var(--espresso); line-height: 1.1; margin-bottom: 0.8rem; }
+    .sec-title em { font-style: italic; color: var(--brown); }
+    .sec-desc { font-size: 0.9rem; color: var(--text-mid); line-height: 1.8; max-width: 580px; }
+    .sec-head { margin-bottom: 4rem; }
+
+    /* ——— TODAY'S SPECIAL ——— */
+    #specials { background: var(--espresso); position: relative; overflow: hidden; }
+    #specials::before { content: ''; position: absolute; top: -100px; right: -100px; width: 500px; height: 500px; border-radius: 50%; border: 1px solid rgba(245,239,224,0.06); }
+    .specials-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3.5rem; flex-wrap: wrap; gap: 1rem; }
+    .specials-header .sec-label { color: var(--beige-dark); }
+    .specials-header .sec-label::before { background: var(--beige-dark); }
+    .specials-header .sec-title, .specials-header .sec-desc { color: var(--cream); }
+    .specials-header .sec-desc { color: var(--beige-dark); }
+    .date-badge { background: rgba(245,239,224,0.08); border: 1px solid rgba(245,239,224,0.15); border-radius: 6px; padding: 0.6rem 1.2rem; font-size: 0.78rem; color: var(--cream); letter-spacing: 1px; white-space: nowrap; }
+    .specials-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; }
+    .special-card {
+      background: rgba(245,239,224,0.06);
+      border: 1px solid rgba(245,239,224,0.1);
+      border-radius: 12px; padding: 2rem;
+      transition: all 0.35s;
+      position: relative; overflow: hidden;
+    }
+    .special-card:hover { background: rgba(245,239,224,0.1); transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+    .special-emoji { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
+    .special-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 600; color: var(--cream); margin-bottom: 0.4rem; }
+    .special-card p { font-size: 0.82rem; color: var(--beige-dark); line-height: 1.7; margin-bottom: 1.2rem; }
+    .special-footer { display: flex; justify-content: space-between; align-items: center; }
+    .special-price { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; color: var(--beige); }
+    .special-tag { font-size: 0.65rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; }
+    .tag-new { color: #8ED99A; }
+    .tag-hot { color: #F4A460; }
+    .tag-fav { color: #F5C5A3; }
+
+    /* ——— MENU ——— */
+    #menu { background: var(--white); }
+    .menu-tabs { display: flex; gap: 0; margin-bottom: 3rem; border-bottom: 1px solid var(--beige); overflow-x: auto; }
+    .menu-tab {
+      padding: 0.85rem 1.8rem; font-size: 0.75rem; font-weight: 500;
+      letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-light);
+      background: none; border: none; border-bottom: 2px solid transparent;
+      cursor: pointer; white-space: nowrap; transition: all 0.25s;
+    }
+    .menu-tab.active { color: var(--brown); border-bottom-color: var(--brown); }
+    .menu-tab:hover { color: var(--brown-mid); }
+    .menu-panel { display: none; }
+    .menu-panel.active { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1px; background: var(--beige); border: 1px solid var(--beige); border-radius: 8px; overflow: hidden; }
+    .menu-item {
+      background: var(--white); padding: 1.5rem;
+      display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;
+      transition: background 0.2s;
+    }
+    .menu-item:hover { background: var(--cream); }
+    .menu-item-info h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 600; color: var(--espresso); margin-bottom: 0.3rem; }
+    .menu-item-info p { font-size: 0.78rem; color: var(--text-light); line-height: 1.6; max-width: 220px; }
+    .menu-item-info .tags { display: flex; gap: 0.4rem; margin-top: 0.5rem; flex-wrap: wrap; }
+    .menu-badge { font-size: 0.6rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; padding: 0.2rem 0.6rem; border-radius: 20px; background: var(--beige); color: var(--brown-mid); }
+    .menu-badge.veg { background: #E8F5E9; color: #388E3C; }
+    .menu-badge.bestseller { background: #FFF8E1; color: #F57F17; }
+    .menu-item-price { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 600; color: var(--brown); white-space: nowrap; }
+
+    /* ——— RESERVATION ——— */
+    #reservation { background: linear-gradient(135deg, #F0E6CC 0%, #E8D9BF 100%); }
+    .reservation-container { display: grid; grid-template-columns: 1fr 1.3fr; gap: 5rem; align-items: start; }
+    
+    /* Modified Reservation Left Column (My Design) */
+    .res-contact-block { margin-top: 2rem; display: flex; flex-direction: column; gap: 2rem; }
+    .res-contact-item { display: flex; gap: 1rem; }
+    .res-contact-icon { width: 44px; height: 44px; background: var(--white); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--brown); box-shadow: 0 4px 12px rgba(107,63,30,0.1); }
+    .res-contact-info h4 { font-size: 0.85rem; font-weight: 600; color: var(--espresso); margin-bottom: 0.3rem; }
+    .res-contact-info p { font-size: 0.85rem; color: var(--text-mid); line-height: 1.5; }
+
+    .res-form { background: var(--white); border-radius: 16px; padding: 2.5rem; box-shadow: 0 20px 60px rgba(107,63,30,0.1); position: relative; overflow: hidden;}
+    .res-form h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.7rem; font-weight: 600; color: var(--espresso); margin-bottom: 2rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .fg { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
+    .fg label { font-size: 0.7rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-light); }
+    .fg input, .fg select, .fg textarea {
+      background: var(--cream); border: 1px solid var(--beige-dark);
+      border-radius: 6px; padding: 0.7rem 1rem; color: var(--text);
+      font-family: 'Jost'; font-size: 0.88rem; outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .fg input:focus, .fg select:focus, .fg textarea:focus { border-color: var(--brown); box-shadow: 0 0 0 3px rgba(107,63,30,0.07); }
+    .fg select option { background: white; }
+    
+    /* Success Message State */
+    .res-success {
+      position: absolute; inset: 0; background: var(--white);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 2rem;
+      opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
+    }
+    .res-success.visible { opacity: 1; pointer-events: all; }
+    .success-icon { width: 70px; height: 70px; background: #E8F5E9; color: #388E3C; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin-bottom: 1.5rem; }
+    .res-content { transition: opacity 0.4s ease; }
+    .res-content.hidden { opacity: 0; pointer-events: none; }
+
+    /* ——— HOME DELIVERY COMING SOON ——— */
+    #delivery { background: var(--cream); }
+    .delivery-inner { display: flex; flex-direction: column; align-items: center; text-align: center; }
+    .delivery-card {
+      background: var(--white); border-radius: 20px; padding: 4rem 3rem;
+      box-shadow: 0 20px 60px rgba(107,63,30,0.08); max-width: 700px; width: 100%;
+      border: 1px solid var(--beige); position: relative; overflow: hidden;
+    }
+    .delivery-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--brown-light), var(--brown)); }
+    .coming-soon-label { display: inline-flex; align-items: center; gap: 0.6rem; background: rgba(107,63,30,0.07); border: 1px solid rgba(107,63,30,0.2); border-radius: 30px; padding: 0.4rem 1.2rem; font-size: 0.7rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--brown); margin-bottom: 1.5rem; }
+    .coming-soon-icon { font-size: 4rem; margin-bottom: 1.5rem; display: block; }
+    .delivery-card h2 { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; font-weight: 300; color: var(--espresso); margin-bottom: 1rem; }
+    .delivery-card h2 em { font-style: italic; color: var(--brown); }
+    .delivery-card p { font-size: 0.9rem; color: var(--text-mid); line-height: 1.8; max-width: 480px; margin: 0 auto 2rem; }
+    .notify-form { display: flex; gap: 0.5rem; max-width: 420px; width: 100%; margin: 0 auto; }
+    .notify-form input { flex: 1; background: var(--cream); border: 1px solid var(--beige-dark); border-radius: 4px; padding: 0.75rem 1rem; font-family: 'Jost'; font-size: 0.88rem; color: var(--text); outline: none; }
+    .notify-form input:focus { border-color: var(--brown); }
+    .notify-form button { white-space: nowrap; }
+    .delivery-features { display: flex; justify-content: center; gap: 2.5rem; margin-top: 2.5rem; flex-wrap: wrap; }
+    .df { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; color: var(--text-mid); }
+    .df span:first-child { font-size: 1.1rem; }
+
+    /* ——— LOCATION ——— */
+    #location { background: var(--white); }
+    .loc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; align-items: start; }
+    .map-wrap { border-radius: 14px; overflow: hidden; border: 1px solid var(--beige); height: 380px; box-shadow: 0 12px 40px var(--shadow); }
+    .map-wrap iframe { width: 100%; height: 100%; border: none; }
+    .loc-details { display: flex; flex-direction: column; gap: 1.8rem; }
+    .loc-detail { display: flex; gap: 1.2rem; align-items: flex-start; padding-bottom: 1.8rem; border-bottom: 1px solid var(--beige); }
+    .loc-detail:last-child { border-bottom: none; padding-bottom: 0; }
+    .loc-icon { width: 44px; height: 44px; background: var(--cream); border: 1px solid var(--beige); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+    .loc-text h4 { font-size: 0.78rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-light); margin-bottom: 0.4rem; }
+    .loc-text p, .loc-text a { font-size: 0.88rem; color: var(--text-mid); line-height: 1.7; text-decoration: none; }
+    .loc-text a:hover { color: var(--brown); }
+
+    /* ——— FAQ ——— */
+    #faq { background: linear-gradient(180deg, var(--cream) 0%, var(--beige) 100%); }
+    .faq-container { display: grid; grid-template-columns: 1fr 1.5fr; gap: 5rem; }
+    .faq-list { display: flex; flex-direction: column; gap: 0.8rem; }
+    .faq-item {
+      background: var(--white); border: 1px solid var(--beige);
+      border-radius: 10px; overflow: hidden;
+      transition: box-shadow 0.3s;
+    }
+    .faq-item:hover { box-shadow: 0 4px 20px var(--shadow); }
+    .faq-q {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.2rem 1.5rem; cursor: pointer;
+      font-size: 0.88rem; font-weight: 500; color: var(--text);
+      background: none; border: none; width: 100%; text-align: left;
+      gap: 1rem;
+    }
+    .faq-q:hover { color: var(--brown); }
+    .faq-arrow { font-size: 1.1rem; transition: transform 0.3s; flex-shrink: 0; color: var(--brown-light); }
+    .faq-item.open .faq-arrow { transform: rotate(180deg); }
+    .faq-a {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s;
+      font-size: 0.83rem; color: var(--text-mid); line-height: 1.8;
+      padding: 0 1.5rem; border-top: 0 solid var(--beige);
+    }
+    .faq-item.open .faq-a { max-height: 200px; padding: 1rem 1.5rem 1.5rem; border-top-width: 1px; }
+
+    /* ——— GALLERY ——— */
+    #gallery { background: var(--white); }
+    .gallery-mosaic { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: 200px 200px; gap: 1rem; }
+    .gal { border-radius: 10px; overflow: hidden; background: var(--beige); cursor: pointer; position: relative; }
+    .gal:first-child { grid-row: span 2; }
+    .gal:nth-child(2) { grid-column: span 2; }
+    .gal-inner { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; transition: transform 0.4s; background: inherit; }
+    .gal:hover .gal-inner { transform: scale(1.06); }
+    .gal-overlay { position: absolute; inset: 0; background: rgba(44,24,16,0.4); opacity: 0; transition: opacity 0.3s; display: flex; align-items: flex-end; padding: 1.2rem; }
+    .gal:hover .gal-overlay { opacity: 1; }
+    .gal-cap { font-size: 0.82rem; font-weight: 500; color: white; letter-spacing: 0.5px; }
+    .gal1 { background: linear-gradient(135deg,#e8d5b0,#d4b896); }
+    .gal2 { background: linear-gradient(135deg,#d4b896,#c4956a); }
+    .gal3 { background: linear-gradient(135deg,#c4956a,#a07040); }
+    .gal4 { background: linear-gradient(135deg,#b87d5a,#8b5a2b); }
+    .gal5 { background: linear-gradient(135deg,#8b5a2b,#6b3f1e); }
+
+    /* ——— CHATBOT ——— */
+    .chat-fab {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 600;
+      width: 58px; height: 58px; border-radius: 50%;
+      background: var(--brown);
+      box-shadow: 0 8px 24px rgba(107,63,30,0.4);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all 0.3s; border: none;
+      animation: fabPop 0.5s cubic-bezier(0.34,1.56,0.64,1) 1s both;
+    }
+    @keyframes fabPop { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
+    .chat-fab:hover { background: var(--espresso); transform: scale(1.1); box-shadow: 0 12px 32px rgba(107,63,30,0.5); }
+    .chat-fab svg { width: 26px; height: 26px; fill: var(--cream); }
+    .chat-badge { position: absolute; top: -2px; right: -2px; width: 16px; height: 16px; background: #6BC47E; border-radius: 50%; border: 2px solid var(--white); }
+    .chat-tooltip {
+      position: absolute; right: 70px; top: 50%; transform: translateY(-50%);
+      background: var(--espresso); color: var(--cream);
+      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.5px;
+      padding: 0.5rem 0.9rem; border-radius: 6px; white-space: nowrap;
+      opacity: 0; pointer-events: none; transition: opacity 0.2s;
+    }
+    .chat-tooltip::after { content: ''; position: absolute; right: -6px; top: 50%; transform: translateY(-50%); border: 6px solid transparent; border-right: 0; border-left-color: var(--espresso); }
+    .chat-fab:hover .chat-tooltip { opacity: 1; }
+
+    /* Chat window */
+    .chat-window {
+      position: fixed; bottom: 6.5rem; right: 2rem; z-index: 601;
+      width: 340px; background: var(--white); border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(107,63,30,0.25);
+      border: 1px solid var(--beige); overflow: hidden;
+      transform: translateY(20px) scale(0.95); opacity: 0; pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .chat-window.open { transform: translateY(0) scale(1); opacity: 1; pointer-events: all; }
+    .chat-head { background: var(--brown); padding: 1rem 1.2rem; display: flex; align-items: center; gap: 0.8rem; }
+    .chat-av { width: 36px; height: 36px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+    .chat-head-info h4 { font-size: 0.88rem; font-weight: 600; color: var(--cream); }
+    .chat-head-info p { font-size: 0.7rem; color: rgba(245,239,224,0.7); }
+    .chat-close { margin-left: auto; background: none; border: none; color: rgba(245,239,224,0.7); font-size: 1.1rem; cursor: pointer; }
+    .chat-body { padding: 1.2rem; height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.8rem; }
+    .chat-msg { max-width: 85%; font-size: 0.82rem; line-height: 1.5; padding: 0.6rem 0.9rem; border-radius: 12px; }
+    .chat-msg.bot { background: var(--cream); color: var(--text); border-bottom-left-radius: 2px; }
+    .chat-msg.user { background: var(--brown); color: var(--cream); align-self: flex-end; border-bottom-right-radius: 2px; }
+    .chat-footer { padding: 0.8rem 1rem; border-top: 1px solid var(--beige); display: flex; gap: 0.5rem; }
+    .chat-input { flex: 1; background: var(--cream); border: 1px solid var(--beige); border-radius: 20px; padding: 0.5rem 0.9rem; font-family: 'Jost'; font-size: 0.82rem; color: var(--text); outline: none; }
+    .chat-send { background: var(--brown); border: none; border-radius: 50%; width: 34px; height: 34px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--cream); font-size: 1rem; }
+    .chat-coming { font-size: 0.7rem; color: var(--text-light); text-align: center; padding: 0.5rem 1rem 0.8rem; }
+
+    /* ——— TOAST ——— */
+    .toast { position: fixed; bottom: 7rem; right: 2rem; z-index: 700; background: var(--espresso); color: var(--cream); padding: 0.9rem 1.5rem; border-radius: 8px; font-size: 0.83rem; font-weight: 500; box-shadow: 0 8px 24px rgba(0,0,0,0.2); transform: translateY(20px); opacity: 0; transition: all 0.35s; pointer-events: none; }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    /* ——— FOOTER ——— */
+    footer { background: var(--espresso); padding: 4rem 6% 2rem; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; max-width: 1200px; margin: 0 auto; padding-bottom: 3rem; border-bottom: 1px solid rgba(245,239,224,0.1); }
+    .footer-brand p { font-size: 0.82rem; color: rgba(245,239,224,0.5); line-height: 1.8; margin-top: 0.8rem; max-width: 280px; }
+    .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.7rem; font-weight: 600; color: var(--cream); letter-spacing: 4px; text-transform: uppercase; }
+    .footer-social { display: flex; gap: 0.8rem; margin-top: 1.5rem; }
+    .soc-btn { width: 34px; height: 34px; background: rgba(245,239,224,0.08); border-radius: 6px; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 0.9rem; transition: all 0.2s; }
+    .soc-btn:hover { background: rgba(245,239,224,0.15); transform: translateY(-2px); }
+    .footer-col h5 { font-size: 0.68rem; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(245,239,224,0.5); margin-bottom: 1.2rem; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+    .footer-col a { font-size: 0.82rem; color: rgba(245,239,224,0.65); text-decoration: none; transition: color 0.2s; }
+    .footer-col a:hover { color: var(--cream); }
+    .footer-bottom { max-width: 1200px; margin: 2rem auto 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .footer-bottom p { font-size: 0.75rem; color: rgba(245,239,224,0.3); }
+    .footer-bottom a { color: rgba(245,239,224,0.5); text-decoration: none; }
+
+    /* ——— ANIMATIONS ——— */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ——— RESPONSIVE ——— */
+    @media (max-width: 960px) {
+      .hero-inner, .reservation-container, .loc-grid, .faq-container { grid-template-columns: 1fr; gap: 2.5rem; }
+      .hero-visual, nav .nav-links, .nav-reserve { display: none; }
+      .hamburger { display: flex; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      section { padding: 5rem 5%; }
+      .gallery-mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+      .gal:first-child { grid-row: auto; }
+      .gal:nth-child(2) { grid-column: auto; }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .notify-form { flex-direction: column; }
+      .menu-panel.active { grid-template-columns: 1fr; }
+    }
+
+    /* ——— ADMIN / STAFF LOGIN ——— */
+    .admin-login-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: var(--cream); padding: 6px 16px; border-radius: 20px; font-size: 0.8rem; cursor: pointer; transition: all 0.3s; }
+    .admin-login-btn:hover { background: var(--brown); border-color: var(--brown); transform: translateY(-2px); }
+    .admin-modal { position: fixed; inset: 0; background: rgba(44,24,16,0.8); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+    .admin-modal.open { display: flex; }
+    .admin-box { background: var(--white); padding: 2rem; border-radius: 12px; width: 90%; max-width: 350px; display: flex; flex-direction: column; gap: 1rem; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+    .admin-box h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: var(--espresso); }
+    .admin-box input { padding: 0.8rem; border: 1px solid var(--beige-dark); border-radius: 4px; outline: none; }
+    .admin-controls { position: fixed; bottom: 2rem; left: 2rem; z-index: 900; display: none; flex-direction: column; gap: 0.5rem; }
+    .admin-controls.visible { display: flex; }
+    .admin-action-btn { background: var(--brown); color: var(--cream); border: none; padding: 0.8rem 1.2rem; border-radius: 30px; font-size: 0.8rem; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: transform 0.2s; }
+    .admin-action-btn:hover { transform: translateY(-2px); }
+    .edit-trigger { cursor: pointer; border: 1px dashed var(--brown-light); position: relative; }
+    .edit-trigger:hover::after { content: '✎ Edit'; position: absolute; top: 0; right: 0; background: var(--brown); color: white; font-size: 0.7rem; padding: 2px 6px; }
+    .delete-item-btn { color: red; font-size: 0.7rem; cursor: pointer; margin-left: 0.5rem; border: 1px solid red; padding: 2px 5px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- CHATBOT FAB -->
+<button class="chat-fab" onclick="toggleChat()" id="chatFab" aria-label="Chat with us">
+  <div class="chat-badge"></div>
+  <div class="chat-tooltip">Ask us anything ☕</div>
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+  </svg>
+</button>
+
+<!-- CHAT WINDOW -->
+<div class="chat-window" id="chatWindow">
+  <div class="chat-head">
+    <div class="chat-av">☕</div>
+    <div class="chat-head-info">
+      <h4>Brewraga Assistant</h4>
+      <p>Usually replies in seconds</p>
+    </div>
+    <button class="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-body" id="chatBody">
+    <div class="chat-msg bot">Hey there! ☕ Welcome to Brewraga. How can I help you today?</div>
+    <div class="chat-msg bot">You can ask me about our menu, hours, reservations, or today's specials!</div>
+  </div>
+  <div class="chat-footer">
+    <input class="chat-input" id="chatInput" type="text" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendChat()">
+    <button class="chat-send" onclick="sendChat()">➤</button>
+  </div>
+  <div class="chat-coming">🔧 AI backend coming soon — stay tuned!</div>
+</div>
+
+<!-- ADMIN MODAL -->
+<div class="admin-modal" id="adminModal">
+  <div class="admin-box">
+    <h3>Staff Login</h3>
+    <input type="password" id="adminPass" placeholder="Enter Password (admin123)">
+    <button class="btn-fill" onclick="checkLogin()">Login</button>
+    <button class="btn-ghost" onclick="closeAdmin()" style="padding:0.5rem">Cancel</button>
+  </div>
+</div>
+
+<!-- ADMIN CONTROLS -->
+<div class="admin-controls" id="adminControls">
+  <button class="admin-action-btn" onclick="addNewSpecial()">+ Add Special</button>
+  <button class="admin-action-btn" onclick="logout()">Logout</button>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="logo-nav">
+    <span class="logo-icon">☕</span>
+    <span class="logo-text">Brewraga</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#specials">Today's Special</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#reservation">Reserve</a></li>
+    <li><a href="#delivery">Delivery</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#location">Location</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <a href="#reservation" class="nav-reserve">Reserve a Table</a>
+  <button class="hamburger" onclick="toggleMobile()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#specials" onclick="closeMobile()">Today's Special</a>
+  <a href="#menu" onclick="closeMobile()">Menu</a>
+  <a href="#reservation" onclick="closeMobile()">Reserve a Table</a>
+  <a href="#delivery" onclick="closeMobile()">Home Delivery</a>
+  <a href="#gallery" onclick="closeMobile()">Gallery</a>
+  <a href="#location" onclick="closeMobile()">Location & Hours</a>
+  <a href="#faq" onclick="closeMobile()">FAQ</a>
+</div>
+
+<!-- ——— HERO ——— -->
+<section id="hero">
+  <div class="coffee-ring r1"></div>
+  <div class="coffee-ring r2"></div>
+  <div class="coffee-ring r3"></div>
+  <div class="coffee-ring r4"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-pill">🟢 Open Now · Until 1:00 AM</div>
+      <div class="hero-eyebrow">Yes, we are open</div>
+      <h1 class="hero-title">Brew <strong>Raga</strong></h1>
+      <p class="hero-sub">Vadodara's newest rooftop café. Experience the symphony of taste with exceptional coffee, gourmet bites, and a vibe that stays with you.</p>
+      <div class="hero-actions">
+        <a href="#menu" class="btn-fill">Explore Menu</a>
+        <a href="#reservation" class="btn-ghost">Reserve a Table</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat"><div class="hstat-n">06<span style="font-size:1rem;color:var(--brown-light)">AM</span></div><div class="hstat-l">Opens at</div></div>
+        <div class="hstat" style="border-left:1px solid var(--beige-dark);padding-left:2.5rem"><div class="hstat-n">01<span style="font-size:1rem;color:var(--brown-light)">AM</span></div><div class="hstat-l">Closes at</div></div>
+        <div class="hstat" style="border-left:1px solid var(--beige-dark);padding-left:2.5rem"><div class="hstat-n">2<span style="font-size:1rem;color:var(--brown-light)">nd</span></div><div class="hstat-l">Floor Rooftop</div></div>
+      </div>
+    </div>
+    <div class="hero-visual reveal" id="heroVisual">
+      <!-- Rendered by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ——— TODAY'S SPECIALS ——— -->
+<section id="specials">
+  <div class="section-in">
+    <div class="specials-header reveal">
+      <div>
+        <div class="sec-label">Fresh From The Kitchen</div>
+        <h2 class="sec-title" style="color:var(--cream)">Today's <em style="color:var(--beige-dark)">Specials</em></h2>
+        <p class="sec-desc" style="color:rgba(232,217,191,0.6)">Curated daily by our chef. Limited quantities — come early!</p>
+      </div>
+      <div class="date-badge" id="todayDate">Loading...</div>
+    </div>
+    <div class="specials-grid" id="specialsGrid">
+      <!-- Rendered by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ——— MENU ——— -->
+<section id="menu">
+  <div class="section-in">
+    <div class="sec-head reveal">
+      <div class="sec-label">Our Offerings</div>
+      <h2 class="sec-title">The <em>Menu</em></h2>
+      <p class="sec-desc">From morning brews to midnight bites — something for every mood.</p>
+    </div>
+    <div class="menu-tabs reveal">
+      <button class="menu-tab active" onclick="switchTab('hot')">Hot Drinks</button>
+      <button class="menu-tab" onclick="switchTab('cold')">Cold Drinks</button>
+      <button class="menu-tab" onclick="switchTab('food')">Food</button>
+      <button class="menu-tab" onclick="switchTab('desserts')">Desserts</button>
+    </div>
+
+    <!-- HOT DRINKS -->
+    <div class="menu-panel active" id="tab-hot"></div>
+
+    <!-- COLD DRINKS -->
+    <div class="menu-panel" id="tab-cold"></div>
+
+    <!-- FOOD -->
+    <div class="menu-panel" id="tab-food"></div>
+
+    <!-- DESSERTS -->
+    <div class="menu-panel" id="tab-desserts"></div>
+  </div>
+</section>
+
+<!-- ——— RESERVATION ——— -->
+<section id="reservation">
+  <div class="section-in">
+    <div class="reservation-container">
+      <div class="reveal">
+        <div class="sec-label">Save Your Spot</div>
+        <h2 class="sec-title">Book <em>a Table</em></h2>
+        <p class="sec-desc">Whether it's a romantic evening, a workspace for the day, or a hangout with friends, secure the best spot at our rooftop.</p>
+        
+        <!-- Modified: My Previous Design's Contact Block -->
+        <div class="res-contact-block">
+          <div class="res-contact-item">
+            <div class="res-contact-icon">📞</div>
+            <div class="res-contact-info">
+              <h4>Phone Booking</h4>
+              <p>+91 87588 38722</p>
+            </div>
+          </div>
+          <div class="res-contact-item">
+            <div class="res-contact-icon">📅</div>
+            <div class="res-contact-info">
+              <h4>Opening Hours</h4>
+              <p>Mon - Sun: 06:00 AM - 01:00 AM</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form container with success state logic -->
+      <div class="res-form reveal" id="resFormContainer">
+        
+        <!-- Success Message (Hidden by default) -->
+        <div class="res-success" id="resSuccess">
+          <div class="success-icon">✓</div>
+          <h3 style="margin-bottom:0.5rem">Request Received!</h3>
+          <p style="color:var(--text-mid);margin-bottom:1.5rem">We'll call you shortly to confirm your table.</p>
+          <button class="btn-ghost" onclick="resetReservation()">Book Another</button>
+        </div>
+
+        <!-- The Content -->
+        <div class="res-content" id="resContent">
+          <h3>Make a Reservation</h3>
+          <div class="form-row">
+            <div class="fg"><label>Date</label><input type="date" id="rDate"></div>
+            <div class="fg"><label>Time</label><input type="time" id="rTime"></div>
+          </div>
+          <div class="form-row">
+            <div class="fg"><label>Guests</label>
+              <select id="rGuests">
+                <option>2 People</option><option>3 People</option>
+                <option>4 People</option><option>5+ People</option>
+              </select>
+            </div>
+            <div class="fg"><label>Phone Number</label><input type="tel" id="rPhone" placeholder="+91 99999 99999"></div>
+          </div>
+          <div class="fg"><label>Your Name</label><input type="text" id="rName" placeholder="John Doe"></div>
+          
+          <button class="btn-fill" id="resBtn" style="width:100%;display:block;text-align:center;margin-top:1rem" onclick="submitReservation()">Confirm Booking</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ——— HOME DELIVERY COMING SOON ——— -->
+<section id="delivery">
+  <div class="section-in">
+    <div class="delivery-inner">
+      <div class="delivery-card reveal">
+        <div class="coming-soon-label">🚀 Coming Soon</div>
+        <span class="coming-soon-icon">🛵</span>
+        <h2>Home <em>Delivery</em></h2>
+        <p>Soon you won't have to leave your couch to enjoy BREWRAGA. We're setting up our delivery network to bring your favorites right to your doorstep.</p>
+        <div class="notify-form">
+          <input type="email" id="notifyEmail" placeholder="Enter your email address">
+          <button class="btn-fill" onclick="submitNotify()">Notify Me</button>
+        </div>
+        <div class="delivery-features">
+          <div class="df"><span>📍</span><span>Vadodara area</span></div>
+          <div class="df"><span>⏱️</span><span>30 min delivery</span></div>
+          <div class="df"><span>📦</span><span>Spill-proof</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ——— GALLERY ——— -->
+<section id="gallery">
+  <div class="section-in">
+    <div class="sec-head reveal" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1rem">
+      <div><div class="sec-label">Visual Vibes</div><h2 class="sec-title">Our <em>Gallery</em></h2></div>
+      <a href="#" class="btn-ghost" style="font-size:0.7rem">@brewraga.bdq ↗</a>
+    </div>
+    <div class="gallery-mosaic reveal">
+      <div class="gal gal1" style="grid-row:span 2">
+        <div class="gal-inner">☕</div>
+        <div class="gal-overlay"><span class="gal-cap">Perfect Pour</span></div>
+      </div>
+      <div class="gal gal2" style="grid-column:span 2">
+        <div class="gal-inner">🌆</div>
+        <div class="gal-overlay"><span class="gal-cap">Rooftop Ambiance</span></div>
+      </div>
+      <div class="gal gal3">
+        <div class="gal-inner">🥐</div>
+        <div class="gal-overlay"><span class="gal-cap">Fresh Bakery</span></div>
+      </div>
+      <div class="gal gal4">
+        <div class="gal-inner">🪴</div>
+        <div class="gal-overlay"><span class="gal-cap">Green Corners</span></div>
+      </div>
+      <div class="gal gal5">
+        <div class="gal-inner">🍮</div>
+        <div class="gal-overlay"><span class="gal-cap">Sweet Treats</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ——— LOCATION ——— -->
+<section id="location">
+  <div class="section-in">
+    <div class="sec-head reveal">
+      <div class="sec-label">Find Us</div>
+      <h2 class="sec-title">Location & <em>Hours</em></h2>
+    </div>
+    <div class="loc-grid">
+      <div class="map-wrap reveal">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3691.15!2d73.119!3d22.321!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395fc5f2d696e9a9%3A0x4e7cfb9e7a!2sPavitra+Landmark%2C+Vasna+Bhayli+Main+Rd%2C+Vadodara%2C+Gujarat!5e0!3m2!1sen!2sin!4v1234567890"
+          allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+      <div class="loc-details reveal">
+        <div class="loc-detail">
+          <div class="loc-icon">📍</div>
+          <div class="loc-text">
+            <h4>Address</h4>
+            <p>2nd Floor Rooftop, Pavitra Landmark,<br>Opposite Panchmukhi Hanuman Mandir,<br>Vasna Bhayli Main Road, Vadodara, Gujarat</p>
+          </div>
+        </div>
+        <div class="loc-detail">
+          <div class="loc-icon">⏰</div>
+          <div class="loc-text">
+            <h4>Hours</h4>
+            <p>Every Day: <strong>06:00 AM – 01:00 AM</strong></p>
+          </div>
+        </div>
+        <div class="loc-detail">
+          <div class="loc-icon">📞</div>
+          <div class="loc-text">
+            <h4>Call Us</h4>
+            <a href="tel:+918758838722">+91 87588 38722</a>
+          </div>
+        </div>
+        <div class="loc-detail">
+          <div class="loc-icon">🚗</div>
+          <div class="loc-text">
+            <h4>Parking</h4>
+            <p>Ample parking space available at Pavitra Landmark.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ——— FAQ ——— -->
+<section id="faq">
+  <div class="section-in">
+    <div class="faq-container">
+      <div class="reveal">
+        <div class="sec-label">Common Questions</div>
+        <h2 class="sec-title">Frequently <em>Asked</em></h2>
+      </div>
+      <div class="faq-list reveal">
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Do you have vegan options? <span class="faq-arrow">▾</span></button>
+          <div class="faq-a">Yes! We have almond and oat milk alternatives for all our coffees, plus vegan snacks.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Is there parking available? <span class="faq-arrow">▾</span></button>
+          <div class="faq-a">Yes, Pavitra Landmark has ample parking space for our guests.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Do you offer free Wi-Fi? <span class="faq-arrow">▾</span></button>
+          <div class="faq-a">Absolutely. We are a workspace-friendly cafe with high-speed internet.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Can I host a private event? <span class="faq-arrow">▾</span></button>
+          <div class="faq-a">Yes, our rooftop area is perfect for small gatherings. Please contact us to book.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ——— FOOTER ——— -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo">☕ Brewraga</div>
+      <p>Brewing memories, one cup at a time. Join us at the rooftop for the best views and vibes in Vadodara.</p>
+      <div class="footer-social">
+        <a href="#" class="soc-btn">📸</a>
+        <a href="#" class="soc-btn">💬</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h5>Quick Links</h5>
+      <ul>
+        <li><a href="#specials">Today's Special</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#reservation">Book a Table</a></li>
+        <li><a href="#delivery">Home Delivery</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="tel:+918758838722">+91 87588 38722</a></li>
+        <li><a href="#location">Vasna Bhayli, Vadodara</a></li>
+        <li><a href="#location">Open 06 AM – 01 AM</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Brewraga Café. All rights reserved.</p>
+    <button class="admin-login-btn" onclick="openAdmin()">Staff Login</button>
+  </div>
+</footer>
+
+<script>
+  // ——— NAV SCROLL ———
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', scrollY > 30);
+  });
+
+  // ——— MOBILE MENU ———
+  function toggleMobile() { document.getElementById('mobileMenu').classList.toggle('open'); }
+  function closeMobile() { document.getElementById('mobileMenu').classList.remove('open'); }
+
+  // ——— REVEAL ANIMATIONS ———
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // ——— MENU TABS ———
+  function switchTab(tab) {
+    document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.menu-panel').forEach(p => p.classList.remove('active'));
+    event.target.classList.add('active');
+    document.getElementById('tab-' + tab).classList.add('active');
+  }
+
+  // ——— FAQ ———
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // ——— TOAST ———
+  function showToast(msg, duration=3500) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), duration);
+  }
+
+  // ——— RESERVATION LOGIC (My Previous Design Adapted) ———
+  function submitReservation() {
+    const n = document.getElementById('rName').value.trim();
+    const p = document.getElementById('rPhone').value.trim();
+    const d = document.getElementById('rDate').value;
+    const t = document.getElementById('rTime').value;
+    const g = document.getElementById('rGuests').value;
+    
+    if (!n || !p || !d || !t) { 
+        showToast('⚠️ Please fill in all required fields'); 
+        return; 
+    }
+
+    const btn = document.getElementById('resBtn');
+    const originalText = btn.textContent;
+    btn.textContent = 'Opening WhatsApp...';
+    btn.disabled = true;
+
+    // Construct WhatsApp Message
+    const msg = `*New Reservation Request* !!\n\n` +
+                `Name: ${n}\n` +
+                `Phone: ${p}\n` +
+                `Date: ${d}\n` +
+                `Time: ${t}\n` +
+                `Guests: ${g}\n\n` +
+                `Please confirm if this slot is available.`;
+
+    const waUrl = `https://wa.me/918758838722?text=${encodeURIComponent(msg)}`;
+
+    setTimeout(() => {
+        window.open(waUrl, '_blank');
+        
+        // Success State
+        document.getElementById('resContent').classList.add('hidden');
+        document.getElementById('resSuccess').classList.add('visible');
+        btn.textContent = originalText;
+        btn.disabled = false;
+    }, 1500);
+  }
+
+  function resetReservation() {
+    // Reset form
+    ['rName','rPhone','rDate','rTime'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('rGuests').selectedIndex = 0;
+    
+    // Switch view back
+    document.getElementById('resSuccess').classList.remove('visible');
+    document.getElementById('resContent').classList.remove('hidden');
+  }
+
+  // ——— DELIVERY NOTIFY ———
+  function submitNotify() {
+    const e = document.getElementById('notifyEmail').value.trim();
+    if (!e || !e.includes('@')) { showToast('⚠️ Please enter a valid email'); return; }
+    showToast('🎉 You\'re on the list! We\'ll notify you when delivery launches.');
+    document.getElementById('notifyEmail').value = '';
+  }
+
+  // ——— CHATBOT ———
+  function toggleChat() {
+    document.getElementById('chatWindow').classList.toggle('open');
+  }
+  function sendChat() {
+    const input = document.getElementById('chatInput');
+    const msg = input.value.trim();
+    if (!msg) return;
+    const body = document.getElementById('chatBody');
+    // User message
+    const userDiv = document.createElement('div');
+    userDiv.className = 'chat-msg user';
+    userDiv.textContent = msg;
+    body.appendChild(userDiv);
+    input.value = '';
+    body.scrollTop = body.scrollHeight;
+    // Bot reply
+    setTimeout(() => {
+      const botDiv = document.createElement('div');
+      botDiv.className = 'chat-msg bot';
+      botDiv.textContent = "Great question! Our AI assistant is coming soon. For now, please call us at +91 87588 38722 ☕";
+      body.appendChild(botDiv);
+      body.scrollTop = body.scrollHeight;
+    }, 800);
+  }
+
+  // ——— DATE ———
+  const dateEl = document.getElementById('todayDate');
+  if (dateEl) {
+    dateEl.textContent = new Date().toLocaleDateString('en-IN', { weekday:'long', month:'short', day:'numeric' });
+  }
+
+  // ——— STAFF BACKEND LOGIC (LocalStorage) ———
+  // NOTE: This uses the browser's LocalStorage. 
+  // Changes made in Staff Mode are ONLY visible on this specific device/browser.
+  // To make changes visible to all users, you would need a real backend (Firebase, Supabase, etc.).
+  
+  // Default Data
+  const defaultHeroPick = {
+    name: "Hazelnut Cappuccino",
+    desc: "Rich espresso with steamed milk and roasted hazelnut syrup",
+    price: "₹220",
+    badge: "☕ Best Seller"
+  };
+
+  const defaultSpecials = [
+    { id: 1, name: "Hazelnut Cappuccino", price: "₹220", desc: "Rich espresso with steamed milk and roasted hazelnut syrup.", emoji: "☕", tag: "🔥 Best Seller", tagClass: "tag-hot" },
+    { id: 2, name: "Truffle Mushroom Toast", price: "₹350", desc: "Sourdough topped with creamy truffle mushrooms and herbs.", emoji: "🍄", tag: "✨ Chef's Kiss", tagClass: "tag-new" },
+    { id: 3, name: "Berry Blast Smoothie", price: "₹280", desc: "Fresh mixed berries blended with greek yogurt and honey.", emoji: "🍓", tag: "🥗 Healthy", tagClass: "tag-fav" },
+    { id: 4, name: "Caramel Custard", price: "₹150", desc: "Classic French crème caramel with a perfect wobble and a deep amber glaze.", emoji: "🍮", tag: "🔥 Sell Out", tagClass: "tag-hot" }
+  ];
+
+  const defaultMenu = {
+    hot: [
+      { id: 1, name: "Espresso", price: "₹120", desc: "Pure, intense single origin shot", tags: [{text:"Veg", class:"veg"}] },
+      { id: 2, name: "Cappuccino", price: "₹160", desc: "Espresso, steamed milk, microfoam", tags: [{text:"Veg", class:"veg"}] },
+      { id: 3, name: "Hazelnut Cappuccino", price: "₹220", desc: "Rich espresso with hazelnut syrup", tags: [{text:"Veg", class:"veg"}, {text:"Bestseller", class:"bestseller"}] },
+      { id: 4, name: "Masala Chai", price: "₹140", desc: "Spiced tea with warm milk", tags: [{text:"Veg", class:"veg"}] }
+    ],
+    cold: [
+      { id: 5, name: "Cold Brew", price: "₹200", desc: "12-hour steep, served over ice", tags: [{text:"Veg", class:"veg"}, {text:"Bestseller", class:"bestseller"}] },
+      { id: 6, name: "Berry Blast Smoothie", price: "₹280", desc: "Mixed berries, yogurt, honey", tags: [{text:"Veg", class:"veg"}] },
+      { id: 7, name: "Virgin Mojito", price: "₹150", desc: "Fresh mint, lime, soda", tags: [{text:"Veg", class:"veg"}] }
+    ],
+    food: [
+      { id: 8, name: "Truffle Mushroom Toast", price: "₹350", desc: "Sourdough, creamy truffle mushrooms", tags: [{text:"Veg", class:"veg"}, {text:"Chef's Kiss", class:"bestseller"}] },
+      { id: 9, name: "Avocado Toast", price: "₹260", desc: "Sourdough, smashed avocado, chilli", tags: [{text:"Veg", class:"veg"}] },
+      { id: 10, name: "Cheese Fries", price: "₹220", desc: "Crispy fries, cheddar sauce, herbs", tags: [{text:"Veg", class:"veg"}] }
+    ],
+    desserts: [
+      { id: 11, name: "Belgian Waffle", price: "₹240", desc: "Nutella, strawberries, cream", tags: [{text:"Veg", class:"veg"}, {text:"Bestseller", class:"bestseller"}] },
+      { id: 12, name: "Caramel Custard", price: "₹150", desc: "French crème caramel, amber glaze", tags: [{text:"Veg", class:"veg"}] }
+    ]
+  };
+
+  // State
+  let heroData = JSON.parse(localStorage.getItem('brewraga_hero')) || defaultHeroPick;
+  let specialsData = JSON.parse(localStorage.getItem('brewraga_specials')) || defaultSpecials;
+  let menuData = JSON.parse(localStorage.getItem('brewraga_menu')) || defaultMenu;
+  let isAdmin = false;
+
+  // Render Functions
+  function renderApp() {
+    renderHeroPick();
+    renderSpecials();
+    renderMenu('hot');
+    renderMenu('cold');
+    renderMenu('food');
+    renderMenu('desserts');
+  }
+
+  function renderHeroPick() {
+    const container = document.getElementById('heroVisual');
+    const svg = `<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" class="cup-visual"><path d="M50 30 Q52 22 50 14" stroke="#C4956A" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.6"><animate attributeName="opacity" values="0.6;0.2;0.6" dur="2s" repeatCount="indefinite"/></path><path d="M70 28 Q73 18 70 10" stroke="#C4956A" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.5"><animate attributeName="opacity" values="0.5;0.15;0.5" dur="2.5s" repeatCount="indefinite"/></path><path d="M90 30 Q88 22 90 14" stroke="#C4956A" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.6"><animate attributeName="opacity" values="0.6;0.2;0.6" dur="1.8s" repeatCount="indefinite"/></path><ellipse cx="70" cy="108" rx="48" ry="10" fill="#D4B896"/><ellipse cx="70" cy="106" rx="44" ry="8" fill="#C4956A"/><path d="M35 55 Q35 105 70 105 Q105 105 105 55 Z" fill="#8B5A2B"/><path d="M35 55 Q35 105 70 105 Q105 105 105 55 Z" fill="url(#cupGrad)"/><ellipse cx="70" cy="55" rx="35" ry="8" fill="#A07040"/><ellipse cx="70" cy="55" rx="31" ry="6" fill="#6B3F1E"/><path d="M55 53 Q70 47 85 53" stroke="#D4B896" stroke-width="1.5" fill="none" opacity="0.6"/><path d="M60 55 Q70 50 80 55" stroke="#D4B896" stroke-width="1" fill="none" opacity="0.4"/><path d="M105 65 Q122 65 122 80 Q122 95 105 95" stroke="#8B5A2B" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M105 65 Q118 65 118 80 Q118 95 105 95" stroke="#A07040" stroke-width="4" fill="none" stroke-linecap="round"/><defs><linearGradient id="cupGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="rgba(0,0,0,0.15)"/><stop offset="50%" stop-color="rgba(0,0,0,0)"/><stop offset="100%" stop-color="rgba(0,0,0,0.1)"/></linearGradient></defs></svg>`;
+    
+    container.innerHTML = `
+      <div class="cup-card ${isAdmin ? 'edit-trigger' : ''}" onclick="editHeroPick()">
+        <div class="today-special-tag">Today's Pick</div>
+        ${svg}
+        <div class="cup-name">${heroData.name}</div>
+        <div class="cup-desc">${heroData.desc}</div>
+        <div class="cup-price">${heroData.price}</div>
+        <div class="cup-badge">${heroData.badge}</div>
+      </div>
+    `;
+  }
+
+  function renderSpecials() {
+    const container = document.getElementById('specialsGrid');
+    container.innerHTML = specialsData.map((item, index) => `
+      <div class="special-card reveal visible ${isAdmin ? 'edit-trigger' : ''}" onclick="editSpecial(${index})">
+        <span class="special-emoji">${item.emoji}</span>
+        <h3>${item.name}</h3>
+        <p>${item.desc}</p>
+        <div class="special-footer">
+          <div class="special-price">${item.price}</div>
+          <span class="special-tag ${item.tagClass}">${item.tag}</span>
+        </div>
+        ${isAdmin ? `<button class="delete-item-btn" onclick="event.stopPropagation(); deleteSpecial(${index})">Delete</button>` : ''}
+      </div>
+    `).join('');
+  }
+
+  function renderMenu(cat) {
+    const container = document.getElementById('tab-' + cat);
+    container.innerHTML = menuData[cat].map((item, index) => `
+      <div class="menu-item ${isAdmin ? 'edit-trigger' : ''}" onclick="editMenuItem('${cat}', ${index})">
+        <div class="menu-item-info">
+          <h4>${item.name}</h4>
+          <p>${item.desc}</p>
+          <div class="tags">
+            ${item.tags.map(t => `<span class="menu-badge ${t.class}">${t.text}</span>`).join('')}
+          </div>
+        </div>
+        <div class="menu-item-price">${item.price}</div>
+        ${isAdmin ? `<button class="delete-item-btn" onclick="event.stopPropagation(); deleteMenuItem('${cat}', ${index})">✕</button>` : ''}
+      </div>
+    `).join('') + (isAdmin ? `<button class="btn-ghost" style="width:100%;margin-top:1rem" onclick="addMenuItem('${cat}')">+ Add Item to ${cat}</button>` : '');
+  }
+
+  // Admin Logic
+  function openAdmin() { document.getElementById('adminModal').classList.add('open'); }
+  function closeAdmin() { document.getElementById('adminModal').classList.remove('open'); }
+  
+  function checkLogin() {
+    const p = document.getElementById('adminPass').value;
+    if(p === 'admin123') {
+      isAdmin = true;
+      document.getElementById('adminControls').classList.add('visible');
+      closeAdmin();
+      renderApp();
+      showToast('🔓 Staff Mode Active');
+      showToast('🔓 Staff Mode Active (Changes are local-only)');
+    } else {
+      showToast('❌ Incorrect Password');
+    }
+  }
+
+  function logout() {
+    isAdmin = false;
+    document.getElementById('adminControls').classList.remove('visible');
+    renderApp();
+    showToast('🔒 Logged Out');
+  }
+
+  function saveData() {
+    localStorage.setItem('brewraga_hero', JSON.stringify(heroData));
+    localStorage.setItem('brewraga_specials', JSON.stringify(specialsData));
+    localStorage.setItem('brewraga_menu', JSON.stringify(menuData));
+    renderApp();
+  }
+
+  // Edit Handlers
+  function editHeroPick() {
+    if(!isAdmin) return;
+    const newName = prompt("Edit Hero Item Name:", heroData.name);
+    if(newName) {
+      heroData.name = newName;
+      heroData.desc = prompt("Edit Description:", heroData.desc) || heroData.desc;
+      heroData.price = prompt("Edit Price:", heroData.price) || heroData.price;
+      heroData.badge = prompt("Edit Badge:", heroData.badge) || heroData.badge;
+      saveData();
+    }
+  }
+
+  function editSpecial(index) {
+    if(!isAdmin) return;
+    const item = specialsData[index];
+    const newName = prompt("Edit Name:", item.name);
+    if(newName) {
+      item.name = newName;
+      item.price = prompt("Edit Price:", item.price) || item.price;
+      item.desc = prompt("Edit Description:", item.desc) || item.desc;
+      saveData();
+    }
+  }
+
+  function editMenuItem(cat, index) {
+    if(!isAdmin) return;
+    const item = menuData[cat][index];
+    const newName = prompt("Edit Name:", item.name);
+    if(newName) {
+      item.name = newName;
+      item.price = prompt("Edit Price:", item.price) || item.price;
+      saveData();
+    }
+  }
+
+  function deleteSpecial(index) {
+    if(confirm('Delete this special?')) {
+      specialsData.splice(index, 1);
+      saveData();
+    }
+  }
+
+  function deleteMenuItem(cat, index) {
+    if(confirm('Delete this item?')) {
+      menuData[cat].splice(index, 1);
+      saveData();
+    }
+  }
+
+  function addNewSpecial() {
+    specialsData.push({
+      id: Date.now(), name: "New Special", price: "₹000", desc: "Description here", emoji: "✨", tag: "New", tagClass: "tag-new"
+    });
+    saveData();
+  }
+
+  function addMenuItem(cat) {
+    menuData[cat].push({
+      id: Date.now(), name: "New Item", price: "₹000", desc: "Description", tags: [{text:"Veg", class:"veg"}]
+    });
+    saveData();
+  }
+
+  // Init
+  renderApp();
+</script>
+</body>
+</html>
