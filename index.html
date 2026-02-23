@@ -957,13 +957,27 @@
     input.value = '';
     body.scrollTop = body.scrollHeight;
     // Bot reply
-    setTimeout(() => {
-      const botDiv = document.createElement('div');
-      botDiv.className = 'chat-msg bot';
-      botDiv.textContent = "Great question! Our AI assistant is coming soon. For now, please call us at +91 87588 38722 ☕";
-      body.appendChild(botDiv);
-      body.scrollTop = body.scrollHeight;
-    }, 800);
+    fetch('/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: msg })
+    })
+    .then(response => response.json())
+    .then(data => {
+      addBotMsg(data.reply);
+    })
+    .catch(error => {
+      addBotMsg("⚠️ Cannot connect to server. Is python running?");
+    });
+  }
+
+  function addBotMsg(text) {
+    const body = document.getElementById('chatBody');
+    const botDiv = document.createElement('div');
+    botDiv.className = 'chat-msg bot';
+    botDiv.textContent = text;
+    body.appendChild(botDiv);
+    body.scrollTop = body.scrollHeight;
   }
 
   // ——— DATE ———
